@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include "xtime_l.h"
 #include "string.h"
-#include "time.h"
+//#include "time.h"
 #include "ctype.h"
 
 // Parameter definitions
@@ -73,6 +73,14 @@ double b=0;
 int lommeregner_aktiv = 0;
 
 
+// Virtuel sms
+const char *listG[]={"Hej", "Hallo", "Halløj", "Goddag", "Yo", "heyhey"};
+const char *listA[]={"har", "kan", "vil", "er"};
+const char *listS[] = {"du", "Camilla", "i", "katten"};
+const char *listV[] = {"lyst", "tid", "mulighed"};
+const char *listB[] = {"til kaffe","til at spille fodbold", "en date"};
+
+
 
 // Edwards work
 XTime tStart, tEnd, soundDemo_tEnd, soundDemo_tStart;
@@ -90,13 +98,15 @@ int IntcInitFunction(u16 DeviceId, XTmrCtr *TmrInstancePtr, XGpio *GpioInstanceP
 void XTmrCtr_ClearInterruptFlag(XTmrCtr * InstancePtr, u8 TmrCtrNumber);
 void TMR_Intr_Handler(void *InstancePtr, u8 TmrCtrNumber);
 
-//Lommeregner
+// Lommeregner
 void lommeregner(void);
 void addition(double a, double b);
 void subtraction(double a, double b);
 void mult(double a, double b);
 void division(double a, double b);
 
+//  Virtuel sms
+void virtuelSMS(void);
 
 
 
@@ -150,19 +160,26 @@ void BTN_Intr_Handler(void *InstancePtr)
 
 
 
+	// Lommeregner
 	if (btn_value == 1 && lommeregner_aktiv == 1)
 	{
 		lommeregner_aktiv = 0; // deaktiver lommeregner
 	}
 
 
-	// Lommeregner
 	if (btn_value == 1)
 	{
 		lommeregner_aktiv = 1;  // aktiver lommeregner
 		lommeregner();
 	}
 
+
+
+	// Virtuel SMS
+	if (btn_value == 8)
+	{
+		virtuelSMS();
+	}
 
 
 
@@ -420,6 +437,7 @@ void XTmrCtr_ClearInterruptFlag(XTmrCtr * InstancePtr, u8 TmrCtrNumber)
 }
 
 
+// mangler threads til scanf
 void lommeregner()
 {
 	ur_aktiv = 0;
@@ -476,6 +494,8 @@ void lommeregner()
 	ur_aktiv = 1;
 }
 
+
+// ser ikke ud til, at disse funktioner udregner et korrekt resultat
 void addition(double a, double b){
 
     result = a + b;
@@ -491,4 +511,34 @@ void mult(double a, double b){
 
 void division(double a, double b){
     result = a / b;
+}
+
+
+
+// Virker fint, men problemer med, at aflæse button værdier mens vi er i denne funktion
+void virtuelSMS(void)
+{
+	//time_t t;
+	//srand((unsigned) time(&t));
+
+
+	//alarm lyd indsat
+	//xil_printf("\a\n"); // den kan ikke finde ud af det her
+
+
+	xil_printf("Besked modtaget\n");
+
+
+
+	// problem her
+	//if(btn_value==8)
+	//{
+		xil_printf("%s ", listG[rand() % sizeof(listG) / sizeof(listG[0])]);
+		xil_printf("%s ", listA[rand() % sizeof(listA) / sizeof(listA[0])]);
+		xil_printf("%s ", listS[rand() % sizeof(listS) / sizeof(listS[0])]);
+		xil_printf("%s ", listV[rand() % sizeof(listV) / sizeof(listV[0])]);
+		xil_printf("%s ", listB[rand() % sizeof(listB) / sizeof(listB[0])]);
+
+	//}
+
 }
