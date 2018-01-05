@@ -4,10 +4,10 @@ double result=0;
 double a=0;
 double b=0;
 
-int addition(double a, double b);
-int subtraction(double a, double b);
-int mult(double a, double b);
-int division(double a, double b);
+void addition(double a, double b);
+void subtraction(double a, double b);
+void mult(double a, double b);
+void division(double a, double b);
 
 
 int main(){
@@ -19,7 +19,7 @@ int main(){
         while(counter==1){
             char symbol;
             printf("Indtast tal");
-            scanf("%d", &a);
+            scanf("%lf", &a);
             getchar();
 
             printf("\nIndtast symbol");
@@ -27,27 +27,25 @@ int main(){
             getchar();
 
             printf("\nindtast andet tal");
-            scanf("%d", &b);
+            scanf("%lf", &b);
             getchar();
 
             switch(symbol){
                 case '+':
                     addition(a,b);
-                    printf("Resultat er: %d %c %d =  %d\n", a, symbol,b,result);
+                    printf("Resultat er: %.2lf %c %.2lf =  %.2lf\n", a, symbol,b,result);
                     break;
                 case '-':
                     subtraction(a,b);
-                    printf("Resultat er: %lf %c %lf =  -%d\n", a,symbol,b,result);
+                    printf("Resultat er: %.2lf %c %.2lf =  %.2lf\n", a,symbol,b,result);
                     break;
                 case '*':
                     mult(a,b);
-                    printf("Resultat er: %f %c %f =  %f\n", a,symbol,b,result);
+                    printf("Resultat er: %.2lf %c %.2lf =  %.2lf\n", a,symbol,b,result);
                     break;
                 case '/':
                     division(a,b);
-                    printf("Resultat er: %d %c %d =  %d\n", a,symbol,b,result);
-                    break;
-                case '%':
+                    printf("Resultat er: %.2lf %c %.2lf =  %.2lf\n", a,symbol,b,result);
                     break;
                 default:
                     printf("Forkert indtastet operator\n");
@@ -64,19 +62,19 @@ int main(){
     return 0;
 }
 
-int addition(double a, double b){
-    result=a + b;
-    return result;
+void addition(double a, double b){
+    result= a + b;
+
 }
-int subtraction(double a, double b){
+void subtraction(double a, double b){
     result=(a- b);
-    return  result;
+
 }
-int mult(double a, double b){
+void mult(double a, double b){
     result=(a * b);
-    return result;
+
 }
-int division(double a, double b){
+void division(double a, double b){
     result=(a / b);
-    return result;
+
 }
